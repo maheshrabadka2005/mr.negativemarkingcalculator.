@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Negative Marking Calculator</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#2563eb,#7c3aed);
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:15px;
+}
+
+.container{
+width:100%;
+max-width:400px;
+background:#fff;
+padding:20px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,.2);
+}
+
+.logo{
+text-align:center;
+margin-bottom:20px;
+}
+
+.logo span{
+background:linear-gradient(135deg,#2563eb,#7c3aed);
+color:#fff;
+padding:10px 25px;
+border-radius:30px;
+font-weight:bold;
+display:inline-block;
+}
+
+h2{
+text-align:center;
+margin-bottom:15px;
+color:#333;
+}
+
+input,select{
+width:100%;
+padding:12px;
+margin:8px 0;
+border:2px solid #ddd;
+border-radius:10px;
+font-size:15px;
+}
+
+input:focus,
+select:focus{
+outline:none;
+border-color:#2563eb;
+}
+
+button{
+width:100%;
+padding:14px;
+margin-top:10px;
+border:none;
+border-radius:10px;
+background:linear-gradient(135deg,#2563eb,#7c3aed);
+color:white;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+}
+
+button:hover{
+opacity:.9;
+}
+
+.result{
+margin-top:15px;
+padding:15px;
+background:#f8fafc;
+border-radius:10px;
+line-height:2;
+}
+
+.score{
+font-size:22px;
+font-weight:bold;
+color:#16a34a;
+}
+
+.footer{
+text-align:center;
+margin-top:15px;
+font-size:12px;
+color:#666;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="logo">
+<span>Made By MR ❤️</span>
+</div>
+
+<h2>Negative Marking Calculator</h2>
+
+<input type="number" id="q" placeholder="Total Questions">
+
+<input type="number" id="marks" placeholder="Total Marks">
+
+<input type="number" id="attempt" placeholder="Total Attempt">
+
+<input type="number" id="wrong" placeholder="Wrong Questions">
+
+<select id="negative">
+<option value="0">No Negative Marking</option>
+<option value="1">1/1 Negative</option>
+<option value="0.5">1/2 Negative</option>
+<option value="0.333">1/3 Negative</option>
+<option value="0.25" selected>1/4 Negative</option>
+<option value="0.20">1/5 Negative</option>
+<option value="0.166">1/6 Negative</option>
+<option value="0.143">1/7 Negative</option>
+<option value="0.125">1/8 Negative</option>
+</select>
+
+<button onclick="calculate()">Calculate Score</button>
+
+<div class="result" id="result">
+Enter details and click Calculate.
+</div>
+
+<div class="footer">
+MR Calculator © 2026
+</div>
+
+</div>
+
+<script>
+function calculate(){
+
+let totalQuestions =
+parseFloat(document.getElementById("q").value) || 0;
+
+let totalMarks =
+parseFloat(document.getElementById("marks").value) || 0;
+
+let attempt =
+parseFloat(document.getElementById("attempt").value) || 0;
+
+let wrong =
+parseFloat(document.getElementById("wrong").value) || 0;
+
+let negative =
+parseFloat(document.getElementById("negative").value) || 0;
+
+if(totalQuestions<=0 || totalMarks<=0){
+document.getElementById("result").innerHTML =
+"⚠️ Please enter valid values.";
+return;
+}
+
+let correct = attempt - wrong;
+
+let marksPerQuestion =
+totalMarks / totalQuestions;
+
+let gainedMarks =
+correct * marksPerQuestion;
+
+let negativeMarks =
+wrong * marksPerQuestion * negative;
+
+let finalScore =
+gainedMarks - negativeMarks;
+
+let percentage =
+(finalScore / totalMarks) * 100;
+
+let rating = "";
+
+if(percentage >= 80){
+rating = "🟢 Excellent";
+}
+else if(percentage >= 60){
+rating = "🟡 Good";
+}
+else if(percentage >= 40){
+rating = "🟠 Average";
+}
+else{
+rating = "🔴 Poor";
+}
+
+document.getElementById("result").innerHTML = `
+<b>Correct Questions:</b> ${correct}<br>
+<b>Wrong Questions:</b> ${wrong}<br>
+<b>Marks Per Question:</b> ${marksPerQuestion.toFixed(2)}<br>
+<b>Marks Gained:</b> ${gainedMarks.toFixed(2)}<br>
+<b>Negative Marks:</b> -${negativeMarks.toFixed(2)}<br><br>
+
+<div class="score">
+Final Score: ${finalScore.toFixed(2)} / ${totalMarks}
+</div>
+
+<b>Percentage:</b> ${percentage.toFixed(2)}%<br>
+<b>Performance:</b> ${rating}
+`;
+}
+</script>
+
+</body>
+</html>
